@@ -1,0 +1,88 @@
+# mkdocs.yml
+site_name: Xians.ai Documentation
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  favicon: assets/favicon.png
+  icon:
+    logo: material/book-open-page-variant
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Setting Up: getting-started/setting-up.md
+    - Your First Flow: getting-started/first-flow.md
+    - Activity Types: getting-started/activities.md
+    - Working with Agents: getting-started/agents.md
+  - API Reference:
+    - Authentication: api/authentication.md
+    - Endpoints: api/endpoints.md
+  - Guides:
+    - Best Practices: guides/best-practices.md
+    
+markdown_extensions:
+  - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+plugins:
+  - search
+  - mermaid2
+  - minify:
+      minify_html: true
+
+
+# Directory structure:
+# .
+# ├── docs/
+# │   ├── index.md
+# │   ├── getting-started/
+# │   │   ├── quickstart.md
+# │   │   └── installation.md
+# │   ├── api/
+# │   │   ├── authentication.md
+# │   │   └── endpoints.md
+# │   └── guides/
+# │       └── best-practices.md
+# ├── mkdocs.yml
+# └── .github/workflows/deploy.yml
