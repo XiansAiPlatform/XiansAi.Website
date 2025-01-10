@@ -1,5 +1,5 @@
 # mkdocs.yml
-site_name: Xians.ai Documentation
+site_name: Xians.ai Docs
 theme:
   name: material
   features:
@@ -13,15 +13,20 @@ theme:
     - content.code.annotation
     - content.code.copy
   palette:
-    - scheme: default
-      primary: indigo
-      accent: indigo
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom    # Using custom color
+      accent: purple    # Using predefined color
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-    - scheme: slate
-      primary: indigo
-      accent: indigo
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom    # Using custom color
+      accent: purple    # Using predefined color
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
