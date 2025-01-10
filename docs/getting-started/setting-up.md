@@ -52,3 +52,6 @@ var flowRunner = new FlowRunnerService(config);
 
 Use the values from the XiansAI portal to configure the `Config` object. Set the local path to the certificate files you downloaded from the XiansAI portal.
 
+## Next Steps
+
+Now that you have set up your environment, you can proceed to [create your first flow](first-flow.md).
