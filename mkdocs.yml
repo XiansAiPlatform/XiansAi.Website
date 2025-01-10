@@ -36,7 +36,6 @@ extra_css:
   - stylesheets/extra.css
 
 nav:
-  - Home: index.md
   - Getting Started:
     - Setting Up: getting-started/setting-up.md
     - Your First Flow: getting-started/first-flow.md
@@ -87,3 +86,10 @@ plugins:
 
 # Update the homepage setting
 use_directory_urls: true
+
+extra:
+  generator: false
+
+# Force creation of .nojekyll file
+use_directory_urls: true
+strict: true
