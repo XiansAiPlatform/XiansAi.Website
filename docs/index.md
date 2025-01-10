@@ -1,65 +1,87 @@
-# Your AI Agent Orchestrator
+---
+hide:
+  - navigation
+  - toc
+---
 
-!!! abstract "Why Orchestrate AI Agents?"
-    Discover how our orchestration platform helps manage complex AI workflows and ensures reliable business operations.
+# AI Agent Flow Orchestration Platform
 
-## Features at a Glance
+!!! abstract "Enterprise-Grade AI Workflow Orchestration"
+    A robust platform for orchestrating distributed AI agent workflows with durability,
+    observability, and enterprise-grade reliability. Design complex AI pipelines while
+    maintaining full control over execution, state management, and error handling.
 
-=== "Workflow Management"
-    - **Long Running Workflows**
-    - **Durable Business Processes**
-    - **Real-time Monitoring**
+![AI Agent Flow Orchestration](images/flow-orchestration.png)
 
-=== "AI Capabilities"
-    - **Generic AI Agent Interfacing**
-    - **Easy Integration**
-    - **Custom Instructions**
+## Core Capabilities
 
-## Long Running Workflows
+=== "Workflow Engine"
+    - **Distributed Workflow Execution** - Scale across multiple nodes
+    - **State Persistence** - Automatic checkpointing and recovery
+    - **Error Boundaries** - Configurable retry policies and failure handling
+    - **Event-Driven Architecture** - React to external triggers and system events
 
-!!! tip "Durable Business Workflows"
-    Xians.ai provides robust persistence for long-running workflows, ensuring:
+=== "AI Agent Management"
+    - **Protocol Agnostic** - Support for gRPC, REST, WebSocket and custom protocols
+    - **Container Orchestration** - Native Docker/Kubernetes integration
+    - **Resource Management** - CPU/Memory quotas and auto-scaling
+    - **Version Control** - Agent versioning and deployment management
 
-    - [x] Reliable state management
-    - [x] Fault tolerance
-    - [x] Recovery mechanisms
+=== "Observability"
+    - **Distributed Tracing** - End-to-end workflow visibility
+    - **Metrics & Monitoring** - Real-time performance insights
+    - **Structured Logging** - Centralized log aggregation
+    - **Alert Management** - Customizable notification rules
 
-## AI Agents
+## Technical Architecture
 
-The platform supports:
+!!! abstract "Enterprise-Ready Design"
+    Built for production workloads with:
 
-- Containerized AI solutions such as Docker
-- gRPC or HTTP/REST integration of AI Agents
-- Automated lifecycle management of docker containers
-- Precise orchestration control through fault tolerance and recovery mechanisms
+    - [x] Horizontal scalability
+    - [x] High availability
+    - [x] Disaster recovery
+    - [x] Multi-tenant isolation
 
-## Activities
+## Agent Integration
 
-!!! example "Activity Framework"
+The platform provides multiple integration patterns:
 
-    Activities serve as the bridge between Workflows and AI Agents:
+- **Container Runtime** - Native Docker/Kubernetes deployment
+- **Service Integration** - gRPC/REST API endpoints
+- **Message Queues** - Event-driven communication
+- **WebHooks** - HTTP callbacks for external services
 
-    1. **Input/Output Formatting**
-    2. **Instruction Management**
-    3. **Progress Monitoring**
+## Workflow Activities
 
-## Instructions
+!!! abstract "Activity Framework"
+    Define reusable workflow components with:
 
-=== "UI Management"
-    - Intuitive interface
-    - Real-time updates
-    - Visual feedback
+    1. **Strong Typing** - Input/output schema validation
+    2. **Middleware Support** - Pre/post processing hooks
+    3. **Retry Policies** - Configurable error handling
+    4. **Metrics Collection** - Performance monitoring
 
-=== "API Access"
-    - RESTful endpoints
-    - Programmatic control
-    - Integration flexibility
+## Configuration Management
 
-## Monitoring
+=== "Infrastructure"
+    - Infrastructure as Code (IaC)
+    - Environment management
+    - Secret handling
+    - Network policies
 
-!!! info "Real-time Insights"
+=== "API Reference"
+    - OpenAPI specification
+    - Authentication/Authorization
+    - Rate limiting
+    - Versioning
 
-    Monitor your workflows through:
+## Operational Tools
 
-    - Interactive dashboards
-    - Alert systems
+!!! abstract "DevOps Integration"
+    Built-in operational capabilities:
+
+    - **Monitoring Dashboard** - Real-time metrics visualization
+    - **Audit Logging** - Compliance and debugging
+    - **Deployment Pipeline** - CI/CD integration
+    - **Backup/Restore** - Data protection
