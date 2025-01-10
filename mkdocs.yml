@@ -39,12 +39,13 @@ nav:
   - Getting Started:
     - Setting Up: getting-started/setting-up.md
     - Your First Flow: getting-started/first-flow.md
-  - API Reference:
-    - Authentication: api/authentication.md
-    - Endpoints: api/endpoints.md
-  - Guides:
-    - Best Practices: guides/best-practices.md
-    
+  # Comment out or remove these sections until you create the corresponding files
+  # - API Reference:
+  #   - Authentication: api/authentication.md
+  #   - Endpoints: api/endpoints.md
+  # - Guides:
+  #   - Best Practices: guides/best-practices.md
+
 markdown_extensions:
   - tables
   - admonition

@@ -5,8 +5,6 @@ Welcome to the official documentation for Xians.ai. Here you'll find everything 
 ## Quick Navigation
 
 - **[Getting Started](getting-started/setting-up.md)** - Set up your environment and create your first flow
-- **[API Reference](api/authentication.md)** - Detailed API documentation and endpoints
-- **[Best Practices](guides/best-practices.md)** - Learn about recommended patterns and practices
 
 ## Key Features
 
