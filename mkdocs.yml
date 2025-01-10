@@ -36,12 +36,9 @@ extra_css:
   - stylesheets/extra.css
 
 nav:
-  - Home: index.md
   - Getting Started:
     - Setting Up: getting-started/setting-up.md
     - Your First Flow: getting-started/first-flow.md
-    - Activity Types: getting-started/activities.md
-    - Working with Agents: getting-started/agents.md
   - API Reference:
     - Authentication: api/authentication.md
     - Endpoints: api/endpoints.md
@@ -60,14 +57,13 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.tasklist:
       custom_checkbox: true
 
 plugins:
   - search
-  - mermaid2
   - minify:
       minify_html: true
 
@@ -86,3 +82,6 @@ plugins:
 # │       └── best-practices.md
 # ├── mkdocs.yml
 # └── .github/workflows/deploy.yml
+
+# Update the homepage setting
+use_directory_urls: true
