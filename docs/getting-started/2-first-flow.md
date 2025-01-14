@@ -1,0 +1,90 @@
+# Your First Flow
+
+## Creating a Flow
+
+You can create a new flow by creating a new class that inherits from `XiansAi.Flow.FlowBase`.
+
+!!! note "Tip"
+    We are creating a simple flow. We will learn about more complex and meaningful flows that users `Agents` and `Instructions` in the next sections.
+
+`SimpleFlow.cs >`
+
+```csharp
+using Temporalio.Workflows;
+using XiansAi.Flow;
+
+[Workflow]
+public class SimpleFlow: FlowBase
+{
+    [WorkflowRun]
+    public async Task<string> Run(string name)
+    {
+        return await Task.FromResult($"Hello {name}");
+    }
+}
+```
+
+## Configuring flow visualization
+
+We need to configure bundling the source code of the flow file into the assembly. Although this is not needed to execute flows, this is required for the flow visualization to work. Do this by adding the following xml to your `.csproj` file:
+
+```xml
+  <ItemGroup>
+    <!-- Embed the flow source files -->
+    <EmbeddedResource Include="SimpleFlow.cs">
+        <LogicalName>%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+```
+
+Basically this tells the compiler to include the `SimpleFlow.cs` file in the assembly as an embedded resource. 
+
+!!! note "Tip"
+    If the file is in a different folder, you need to update the `Include` attribute to the full path of the file. Example: `Include="MyNamespace/SimpleFlow.cs"`
+
+## Registering the Flow Runner
+
+To register the flow, you need to add the new flow to Flow Runner on your `Program.cs` file. Update the `Program.cs` file with the following code:
+
+`Program.cs >`
+
+```csharp
+using XiansAi.Flow;
+
+// TODO: Get these values from the XiansAI portal
+var config = ...
+
+// Create the flow runner
+var flowRunner = new FlowRunnerService(config);
+
+// Define the flow
+var flowInfo = new FlowInfo<SimpleFlow>();
+
+// Run the flow by passing the flow info
+Task simpleFlowTask = flowRunner.RunFlowAsync(flowInfo);
+
+// Wait for the flow to complete
+await simpleFlowTask;
+
+```
+
+To run the flow, you can run the following command:
+
+```bash
+dotnet build    
+dotnet run
+```
+
+FlowRunner now waits to run the flows you are starting. You can start a new flow on the XiansAI portal by visiting the 'Flow Definitions' section and clicking on the 'Start New' button of your new flow Type (SimpleFlow).
+
+![Start New Flow](../images/start-new-flow.png)
+
+You can see the flow definition details and the flow visualization on the XiansAI portal.
+
+![Flow Definition Details](../images/flow-visualization.png)
+
+## Run the Flow
+
+You can run the flow by clicking on the 'Start New' button on the flow definitions page. You should now see a new flow run on the 'Flow Runs' section of the XiansAI portal.
+
+![Flow Runs](../images/flow-runs.png)

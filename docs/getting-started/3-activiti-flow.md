@@ -2,7 +2,10 @@
 
 ## Creating a Flow
 
-You can create a new flow by creating a new class that inherits from `XiansAi.Flow.FlowBase`. This is the simplest way to create a flow. if you want to create a more complex flows that uses `Instructions` or `Docker Agent`, you can use different base classes as we will see in the next sections.
+You can create a new flow by creating a new class that inherits from `XiansAi.Flow.FlowBase`.
+
+!!! note "Teaser Tip"
+    We are creating a simple flow. We will learn about more complex and meaningful flows that users `Agents` and `Instructions` in the next sections.
 
 `SimpleFlow.cs >`
 
@@ -14,67 +17,9 @@ using XiansAi.Flow;
 public class SimpleFlow: FlowBase
 {
     [WorkflowRun]
-    public async Task<string> Run()
+    public async Task<string> Run(string name)
     {
-        var resultOne = await RunActivityAsync( (ActivityOne a) => a.DoFirstThing());
-        var resultTwo = await RunActivityAsync( (ActivityTwo a) => a.DoSecondThing());
-        return $"{resultOne} - {resultTwo}";
-    }
-}
-```
-
-## Create the Activities
-
-Activities are the building blocks of a flow. They are the smallest unit of work that can be executed by a flow. You can create a new activity by creating a new class that implements an interface. 
-
-- The activity class must inherit from `XiansAi.Activity.ActivityBase`.
-- The `[Activity]` attribute is used to mark the method as an activity on both the interface and the class.
-- The `[Activity]` method must be async.
-- The activity class must have a `[Activity]` attribute.
-
-`ActivityOne.cs >`
-
-```csharp
-using Temporalio.Activities;
-using XiansAi.Activity;
-
-public interface IActivityOne
-{
-    [Activity]
-    Task<string> DoFirstThing();
-}
-
-public class ActivityOne : ActivityBase,  IActivityOne
-{
-    [Activity]
-    public async Task<string> DoFirstThing()
-    {
-        await Task.Delay(1000);
-        return "Activity One";
-    }
-}
-```
-
-`ActivityTwo.cs >`
-
-```csharp
-
-using Temporalio.Activities;
-using XiansAi.Activity;
-
-public interface IActivityTwo
-{
-    [Activity]
-    Task<string> DoSecondThing();
-}
-
-public class ActivityTwo : ActivityBase, IActivityTwo
-{
-    [Activity]
-    public async Task<string> DoSecondThing()
-    {
-        await Task.Delay(1000);
-        return "Activity Two";
+        return $"Hello {name}";
     }
 }
 ```

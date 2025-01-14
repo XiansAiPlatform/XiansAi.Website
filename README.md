@@ -1,4 +1,6 @@
-# Xians.ai Website
+# Xians.ai Public Docs
+
+Documents are at [docs](docs) folder.
 
 ## Create Python vertual environment
 

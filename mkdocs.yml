@@ -13,23 +13,8 @@ theme:
     - content.code.annotation
     - content.code.copy
   palette:
-    # Palette toggle for light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: custom    # Using custom color
-      accent: purple    # Using predefined color
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
-
-    # Palette toggle for dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: custom    # Using custom color
-      accent: purple    # Using predefined color
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
+    primary: custom    # Using custom color
+    accent: purple    # Using predefined color
   font:
     text: Roboto
     code: Roboto Mono
@@ -42,8 +27,8 @@ extra_css:
 
 nav:
   - Getting Started:
-    - Setting Up: getting-started/setting-up.md
-    - Your First Flow: getting-started/first-flow.md
+    - Setting Up: getting-started/1-setting-up.md
+    - Your First Flow: getting-started/2-first-flow.md
   # Comment out or remove these sections until you create the corresponding files
   # - API Reference:
   #   - Authentication: api/authentication.md
