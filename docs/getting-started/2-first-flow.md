@@ -24,6 +24,15 @@ public class SimpleFlow: FlowBase
 }
 ```
 
+!!! warning "Important"
+    The name workflow must be unique within your organization. You can see the list of workflow definitions on the XiansAI portal. You can change the name of the workflow by setting it at the `[Workflow]` attribute.
+
+    ```csharp
+
+    [Workflow("My New Named Flow")]
+    public class SimpleFlow: FlowBase
+    ```
+
 ## Configuring flow visualization
 
 We need to configure bundling the source code of the flow file into the assembly. Although this is not needed to execute flows, this is required for the flow visualization to work. Do this by adding the following xml to your `.csproj` file:
@@ -76,6 +85,13 @@ dotnet run
 ```
 
 FlowRunner now waits to run the flows you are starting. You can start a new flow on the XiansAI portal by visiting the 'Flow Definitions' section and clicking on the 'Start New' button of your new flow Type (SimpleFlow).
+
+!!! bug "Name not unique error"
+    If you get the following error, you need to change the name of the flow. See above for how to change the name of the flow.
+
+    ```bash
+    > Bad Request: "Another user has already used this flow type name SimpleFlow. Please choose a different flow name."
+    ```
 
 ![Start New Flow](../images/start-new-flow.png)
 

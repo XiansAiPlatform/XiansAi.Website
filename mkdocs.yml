@@ -26,6 +26,7 @@ extra_css:
   - stylesheets/extra.css
 
 nav:
+  - Home: index.md
   - Getting Started:
     - Setting Up: getting-started/1-setting-up.md
     - Your First Flow: getting-started/2-first-flow.md
