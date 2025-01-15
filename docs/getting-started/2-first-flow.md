@@ -19,7 +19,10 @@ public class SimpleFlow: FlowBase
     [WorkflowRun]
     public async Task<string> Run(string name)
     {
-        return await Task.FromResult($"Hello {name}");
+        var output = "Hello";
+        await DelayAsync(TimeSpan.FromSeconds(10));
+        output += " World " + name;
+        return await Task.FromResult(output + $" {name}!");
     }
 }
 ```
@@ -28,10 +31,12 @@ public class SimpleFlow: FlowBase
     The name workflow must be unique within your organization. You can see the list of workflow definitions on the XiansAI portal. You can change the name of the workflow by setting it at the `[Workflow]` attribute.
 
     ```csharp
-
     [Workflow("My New Named Flow")]
     public class SimpleFlow: FlowBase
     ```
+
+!!! abstract "Did you know?"
+    Did you know that Xians.ai is capable of long running (persistent) flows? This means you are able to delay a workflow for days or months as required. The workflow will be paused and resumed when the delay is over.
 
 ## Configuring flow visualization
 
@@ -101,6 +106,6 @@ You can see the flow definition details and the flow visualization on the XiansA
 
 ## Run the Flow
 
-You can run the flow by clicking on the 'Start New' button on the flow definitions page. You should now see a new flow run on the 'Flow Runs' section of the XiansAI portal.
+You can run the flow by clicking on the 'Start New' button on the flow definitions page. You should now see a new flow run on the 'Flow Runs' section of the XiansAI portal. Refresh if your run is not visible as it may require a few seconds to start.
 
 ![Flow Runs](../images/flow-runs.png)

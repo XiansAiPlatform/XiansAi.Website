@@ -53,15 +53,14 @@ To configure the `FlowRunnerService` with XiansAi platform, add the following co
 ```csharp
 using XiansAi.Flow;
 
-var config = new PlatformConfig {
-    AppServerUrl = "", // Obtain value from the XiansAI portal
-    AppServerCertPath = "", // Download the certificate file from the XiansAI portal. Set file path to the location of the file.
-    AppServerCertPwd = "", // This is the password you give for the App Server certificate file generation.
-    FlowServerUrl = "", // Obtain value from the XiansAI portal
-    FlowServerNamespace = "", // Obtain value from the XiansAI portal
-    FlowServerCertPath = "", // Download the certificate file from the XiansAI portal. Set file path to the location of the file.
-    FlowServerPrivateKeyPath = "" // Download and save the private key file from the XiansAI portal
-};
+Environment.SetEnvironmentVariable("APP_SERVER_URL", "https://xiansai-server.azurewebsites.net");
+Environment.SetEnvironmentVariable("APP_SERVER_CERT_PATH", "./certs/AppServerCert-1736843478734.pfx");
+Environment.SetEnvironmentVariable("APP_SERVER_CERT_PWD", "my-password");
+Environment.SetEnvironmentVariable("FLOW_SERVER_URL", "tenant-99x.ozqzb.tmprl.cloud:7233");
+Environment.SetEnvironmentVariable("FLOW_SERVER_NAMESPACE", "tenant-99x.ozqzb");
+Environment.SetEnvironmentVariable("FLOW_SERVER_CERT_PATH", "./certs/FlowServerCert-1736843586061.crt");
+Environment.SetEnvironmentVariable("FLOW_SERVER_PRIVATE_KEY_PATH", "./certs/FlowServerPrivateKey-1736843587832.key");
+
 var flowRunner = new FlowRunnerService(config);
 
 // Register the flow (see the next section for more details)
@@ -86,6 +85,9 @@ var config = new PlatformConfig {
 ```
 
 Use the values from the XiansAI portal to configure the `Config` object. Set the local path to the certificate files you downloaded from the XiansAI portal.
+
+!!! note "Expert Tip"
+    You can use DotNetEnv package to load the environment variables from the `.env` file without hardcoding them in your code.
 
 ## Validate the configuration
 
