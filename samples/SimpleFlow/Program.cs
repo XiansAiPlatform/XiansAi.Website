@@ -5,9 +5,6 @@ using Microsoft.Extensions.Logging;
 // Env config via DotNetEnv
 Env.Load(); // OR Manually set the environment variables
 
-// Define the flow
-var flowInfo = new FlowInfo<SimpleFlow>();
-
 FlowRunnerService.SetLoggerFactory(LoggerFactory.Create(builder => 
     builder
         .SetMinimumLevel(LogLevel.Debug)
@@ -17,6 +14,11 @@ FlowRunnerService.SetLoggerFactory(LoggerFactory.Create(builder =>
 // Cancellation token cancelled on ctrl+c
 var tokenSource = new CancellationTokenSource();
 Console.CancelKeyPress += (_, eventArgs) =>{ tokenSource.Cancel(); eventArgs.Cancel = true;};
+
+// Define the flow
+var flowInfo = new FlowInfo<MovieSuggestionFlow>();
+flowInfo.AddActivities<IUserActivity>(new UserActivity());
+flowInfo.AddActivities<IMovieActivity>(new MovieActivity());
 
 try
 {

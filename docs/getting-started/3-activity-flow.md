@@ -9,96 +9,157 @@ The `Flow` class defines the flow and orchestrates the activities. It calls the 
 !!! info "Flow Constraints"
     Flow.ai uses the [Temporal](https://temporal.io/) services to run flows. Temporal is an workflow engine that is capable of running long-lived, robust and reliable flows. You can read more about Flow constraints [here](https://docs.temporal.io/workflows).
 
-`SimpleFlow.cs >`
+## A Flow with 2 Activities
+
+We will create a flow that demonstrates activity usage by integrating with two external APIs to propose movie suggestions for a users.
+
+## Workflow Class
+
+`> MovieSuggestionFlow.cs`
 
 ```csharp
 using Temporalio.Workflows;
+using Temporalio.Activities;
 using XiansAi.Flow;
 
-[Workflow]
-public class SimpleFlow: FlowBase
+[Workflow("Movie Suggestion Flow")]
+public class MovieSuggestionFlow: FlowBase
 {
     [WorkflowRun]
-    public async Task<string> Run(string name)
+    public async Task<object[]> Run(string commaSeparatedUserIds)
     {
-        return $"Hello {name}";
+        // Initialize a list to store the results
+        var result = new List<object>();
+
+        // Split the comma separated user ids into an array of integers
+        var userIds = commaSeparatedUserIds.Split(',').Select(int.Parse).ToArray();
+
+        // Iterate over each user id
+        foreach (var id in userIds)
+        {
+            // Step 1: Fetch user details from JSONPlaceholder
+            var userName = await RunActivityAsync(
+                    (IUserActivity a) => a.GetUserNameAsync(id));
+        
+            // Step 2: Get an activity suggestion from Bored API
+            var movie = await RunActivityAsync(
+                    (IMovieActivity a) => a.GetMovieAsync(userName));
+
+            // Add the result to the list
+            result.Add(new { User = userName, Movie = movie });
+        }
+
+        // Return the results as an array
+        return result.ToArray();
+    }
+}
+
+public interface IUserActivity
+{
+    [Activity]
+    Task<string?> GetUserNameAsync(int id);
+}
+
+
+public interface IMovieActivity
+{
+    [Activity]
+    Task<string?> GetMovieAsync(string? userName);
+}
+```
+
+## Activity UserActivity
+
+`> UserActivity.cs`
+
+```csharp
+using System.Text.Json;
+using XiansAi.Activity;
+
+public class UserActivity : BaseAgentStub, IUserActivity
+{
+    private readonly HttpClient _client = new HttpClient();
+
+    private static string URL = "https://jsonplaceholder.typicode.com/users/{0}";
+
+    public async Task<string?> GetUserNameAsync(int id)
+    {
+        var response = await _client.GetStringAsync(string.Format(URL, id));
+
+        return JsonSerializer.Deserialize<JsonDocument>(response)?.RootElement.GetProperty("name").GetString();
     }
 }
 ```
 
-## Registering the Flow
+## Activity MovieActivity
 
-To register the flow, you need to add the new flow to Flow Runner on your `Program.cs` file. Update the `Program.cs` file with the following code:
+`> MovieActivity.cs`
 
-`Program.cs >`
+```csharp
+using System.Text.Json;
+using XiansAi.Activity;
+
+public class MovieActivity : BaseAgentStub, IMovieActivity 
+{
+    private readonly HttpClient _client = new HttpClient();
+
+    private static string URL = "https://freetestapi.com/api/v1/movies/{0}";
+
+    public async Task<string?> GetMovieAsync(string? userName)
+    {
+        var randonInt = Random.Shared.Next(1, 10);
+        var response = await _client.GetStringAsync(string.Format(URL, randonInt));
+        var result = JsonSerializer.Deserialize<JsonDocument>(response);
+        return result?.RootElement.GetProperty("title").GetString();
+    }
+}
+```
+
+## Program
+
+`> Program.cs`
 
 ```csharp
 using XiansAi.Flow;
+using DotNetEnv;
+using Microsoft.Extensions.Logging;
 
-// TODO: Get these values from the XiansAI portal
-var config = ...
+// Env config via DotNetEnv
+Env.Load(); // OR Manually set the environment variables
 
-// Runner for the flow
-var flowRunner = new FlowRunnerService(config);
+FlowRunnerService.SetLoggerFactory(LoggerFactory.Create(builder => 
+    builder
+        .SetMinimumLevel(LogLevel.Debug)
+        .AddConsole()
+));
+
+// Cancellation token cancelled on ctrl+c
+var tokenSource = new CancellationTokenSource();
+Console.CancelKeyPress += (_, eventArgs) =>{ tokenSource.Cancel(); eventArgs.Cancel = true;};
 
 // Define the flow
-var flowInfo = new FlowInfo<SimpleFlow>();
+var flowInfo = new FlowInfo<MovieSuggestionFlow>();
+flowInfo.AddActivities<IUserActivity>(new UserActivity());
+flowInfo.AddActivities<IMovieActivity>(new MovieActivity());
 
-// Add activities to the flow
-flowInfo.AddActivity<IActivityOne>(new ActivityOne());
-flowInfo.AddActivity<IActivityTwo>(new ActivityTwo());
-
-// Run the flow
-Task simpleFlowTask = flowRunner.RunFlowAsync(flowInfo, CancellationToken.None);
-
-// Wait for the flow to complete
-await simpleFlowTask;
-
+try
+{
+    var runner = new FlowRunnerService();
+    // Run the flow by passing the flow info to the FlowRunnerService
+    await runner.RunFlowAsync(flowInfo, tokenSource.Token);
+}
+catch (OperationCanceledException)
+{
+    Console.WriteLine("Application shutdown requested. Shutting down gracefully...");
+}
 
 ```
 
-## Configuring flow visualization
+Notice how the activities are defined as interfaces and implemented by classes.
 
-You need to configure bundling the source code of the flow file into the assembly. This is done by adding the following to your `csproj` file:
-
-```xml
-  <ItemGroup>
-    <!-- Embed the flow source files -->
-    <EmbeddedResource Include="SimpleFlow.cs">
-        <!-- Keep the resource name simple since files are in root -->
-        <LogicalName>%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-```
-
-It is recommended to keep the flow files on the root of the project.
-
-## Running the Flow
-
-To run the flow, you can run the following command:
+## Run the Flow
 
 ```bash
-dotnet build    
+dotnet build
 dotnet run
 ```
-
-Program now waits to run the flows you are starting. You can start a new flow on the XiansAI portal by visiting the 'Flow Definitions' section and clicking on the 'Start New' button of your new flow Type (SimpleFlow).
-
-![Start New Flow](../images/start-new-flow.png)
-
-## Monitoring the Flow
-
-You can monitor the flow by visiting the 'Flow Runs' section of the XiansAI portal.
-
-![Flow Runs](../images/flow-runs.png)
-
-You can see the flow run details by clicking on the flow run id. For activities, you are able to see details such as:
-
-- Activity Inputs
-- Activity Outputs
-- Activity Start Time
-- Activity End Time
-- Activity Instructions
-- Activity Agents
-
-![Flow Run Details](../images/flow-run-details.png)
