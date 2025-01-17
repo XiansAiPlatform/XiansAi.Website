@@ -65,20 +65,25 @@ To register the flow, you need to add the new flow to Flow Runner on your `Progr
 ```csharp
 using XiansAi.Flow;
 
-// TODO: Get these values from the XiansAI portal
-var config = ...
-
-// Create the flow runner
-var flowRunner = new FlowRunnerService(config);
+// Env config via DotNetEnv
+Env.Load(); // OR Manually set the environment variables
 
 // Define the flow
 var flowInfo = new FlowInfo<SimpleFlow>();
 
-// Run the flow by passing the flow info
-Task simpleFlowTask = flowRunner.RunFlowAsync(flowInfo);
+// Cancellation token cancelled on ctrl+c
+var tokenSource = new CancellationTokenSource();
+Console.CancelKeyPress += (_, eventArgs) =>{ tokenSource.Cancel(); eventArgs.Cancel = true;};
 
-// Wait for the flow to complete
-await simpleFlowTask;
+try
+{
+    // Run the flow by passing the flow info to the FlowRunnerService
+    await new FlowRunnerService().RunFlowAsync(flowInfo, tokenSource.Token);
+}
+catch (OperationCanceledException)
+{
+    Console.WriteLine("Application shutdown requested. Shutting down gracefully...");
+}
 
 ```
 
