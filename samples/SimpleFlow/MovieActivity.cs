@@ -1,6 +1,6 @@
 using System.Text.Json;
 using XiansAi.Activity;
-public class MovieActivity : BaseAgentStub, IMovieActivity 
+public class MovieActivity : BaseActivity, IMovieActivity 
 {
     private readonly HttpClient _client = new HttpClient();
 

@@ -1,7 +1,7 @@
 using System.Text.Json;
 using XiansAi.Activity;
 
-public class UserActivity : BaseAgentStub, IUserActivity
+public class UserActivity : BaseActivity, IUserActivity
 {
     private readonly HttpClient _client = new HttpClient();
 

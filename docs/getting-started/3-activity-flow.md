@@ -15,6 +15,9 @@ We will create a flow that demonstrates activity usage by integrating with two e
 
 ## Workflow Class
 
+- Extend the `FlowBase` class to create a workflow.
+- Define the interfaces for the activities that will be used in the flow.
+
 `> MovieSuggestionFlow.cs`
 
 ```csharp
@@ -70,13 +73,16 @@ public interface IMovieActivity
 
 ## Activity UserActivity
 
+- Extend the `BaseActivity` class to create an activity.
+- Implement the activity interface.
+
 `> UserActivity.cs`
 
 ```csharp
 using System.Text.Json;
 using XiansAi.Activity;
 
-public class UserActivity : BaseAgentStub, IUserActivity
+public class UserActivity : BaseActivity, IUserActivity
 {
     private readonly HttpClient _client = new HttpClient();
 
@@ -93,13 +99,16 @@ public class UserActivity : BaseAgentStub, IUserActivity
 
 ## Activity MovieActivity
 
+- Extend the `BaseActivity` class to create an activity.
+- Implement the activity interface.
+
 `> MovieActivity.cs`
 
 ```csharp
 using System.Text.Json;
 using XiansAi.Activity;
 
-public class MovieActivity : BaseAgentStub, IMovieActivity 
+public class MovieActivity : BaseActivity, IMovieActivity 
 {
     private readonly HttpClient _client = new HttpClient();
 
@@ -157,9 +166,11 @@ catch (OperationCanceledException)
 
 Notice how the activities are defined as interfaces and implemented by classes.
 
-## Run the Flow
+## Start the Flow Runner
 
 ```bash
 dotnet build
 dotnet run
 ```
+
+The Flow Runner will now wait for flow execution requests. To start a new flow, visit the 'Flow Definitions' section in the XiansAI portal and click the 'Start New' button for your MovieSuggestionFlow.
