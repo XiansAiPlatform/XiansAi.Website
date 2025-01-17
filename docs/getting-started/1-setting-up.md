@@ -103,7 +103,7 @@ To validate the configuration, lets temporarily call `TestMe()` method from the 
 
 ```csharp
 ...
-var flowRunner = new FlowRunnerService(config);
+var flowRunner = new FlowRunnerService();
 flowRunner.TestMe(); // temp method to validate the configuration
 ```
 
