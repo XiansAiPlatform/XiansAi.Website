@@ -53,13 +53,13 @@ To configure the `FlowRunnerService` with XiansAi platform, add the following co
 ```csharp
 using XiansAi.Flow;
 
-Environment.SetEnvironmentVariable("APP_SERVER_URL", "https://xiansai-server.azurewebsites.net");
-Environment.SetEnvironmentVariable("APP_SERVER_CERT_PATH", "./certs/AppServerCert-1736843478734.pfx");
-Environment.SetEnvironmentVariable("APP_SERVER_CERT_PWD", "my-password");
-Environment.SetEnvironmentVariable("FLOW_SERVER_URL", "tenant-99x.ozqzb.tmprl.cloud:7233");
-Environment.SetEnvironmentVariable("FLOW_SERVER_NAMESPACE", "tenant-99x.ozqzb");
-Environment.SetEnvironmentVariable("FLOW_SERVER_CERT_PATH", "./certs/FlowServerCert-1736843586061.crt");
-Environment.SetEnvironmentVariable("FLOW_SERVER_PRIVATE_KEY_PATH", "./certs/FlowServerPrivateKey-1736843587832.key");
+Environment.SetEnvironmentVariable("APP_SERVER_URL", "<your-app-server-url>");
+Environment.SetEnvironmentVariable("APP_SERVER_CERT_PATH", "<your-app-server-cert-path>");
+Environment.SetEnvironmentVariable("APP_SERVER_CERT_PWD", "<your-app-server-cert-pwd>");
+Environment.SetEnvironmentVariable("FLOW_SERVER_URL", "<your-flow-server-url>");
+Environment.SetEnvironmentVariable("FLOW_SERVER_NAMESPACE", "<your-flow-server-namespace>");
+Environment.SetEnvironmentVariable("FLOW_SERVER_CERT_PATH", "<your-flow-server-cert-path>");
+Environment.SetEnvironmentVariable("FLOW_SERVER_PRIVATE_KEY_PATH", "<your-flow-server-private-key-path>");
 
 var flowRunner = new FlowRunnerService(config);
 
@@ -70,24 +70,24 @@ You can find the settings required to run the `FlowRunnerService` on the XiansAi
 
 ![Settings](../images/portal-settings.png)
 
-Example `Config` object:
-
-```csharp
-var config = new PlatformConfig {
-    AppServerUrl = "https://xiansai-server.azurewebsites.net ", 
-    AppServerCertPath = "./certs/AppServerCert-1736843478734.pfx", 
-    AppServerCertPwd = "my-password", 
-    FlowServerUrl = "tenant-99x.ozqzb.tmprl.cloud:7233", 
-    FlowServerNamespace = "tenant-99x.ozqzb", 
-    FlowServerCertPath = "./certs/FlowServerCert-1736843586061.crt", 
-    FlowServerPrivateKeyPath = "FlowServerPrivateKey-1736843587832.key" 
-};
-```
-
-Use the values from the XiansAI portal to configure the `Config` object. Set the local path to the certificate files you downloaded from the XiansAI portal.
+Use the values from the XiansAI portal to configure the Environment variables. Set the local path to the certificate files you downloaded from the XiansAI portal.
 
 !!! note "Expert Tip"
-    You can use DotNetEnv package to load the environment variables from the `.env` file without hardcoding them in your code.
+    You can use a package like [DotNetEnv](https://github.com/tonerdo/dotnet-env) to load the environment variables from the `.env` file without hardcoding them in your code.
+
+    `.env file >`
+
+    ``` .env
+    # Platform environment variables
+    FLOW_SERVER_URL=tenant-99x.ozqzb.tmprl.cloud:7233
+    FLOW_SERVER_NAMESPACE=tenant-99x.ozqzb
+    FLOW_SERVER_CERT_PATH=./.cert/FlowServerCert-1736928807581.crt
+    FLOW_SERVER_PRIVATE_KEY_PATH=./.cert/FlowServerPrivateKey-1736928808385.key
+
+    APP_SERVER_URL=https://api.xians.ai
+    APP_SERVER_CERT_PATH=./.cert/AppServerCert-1736979268735.pfx
+    APP_SERVER_CERT_PWD=test
+    ```
 
 ## Validate the configuration
 
