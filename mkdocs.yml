@@ -30,7 +30,7 @@ nav:
   - Getting Started:
     - Setting Up: getting-started/1-setting-up.md
     - Your First Flow: getting-started/2-first-flow.md
-    - Flow Activities: getting-started/3-activiti-flow.md
+    - Flow with Activities: getting-started/3-activity-flow.md
   # Comment out or remove these sections until you create the corresponding files
   # - API Reference:
   #   - Authentication: api/authentication.md

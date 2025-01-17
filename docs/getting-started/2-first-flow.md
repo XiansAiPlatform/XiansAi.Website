@@ -2,10 +2,10 @@
 
 ## Creating a Flow
 
-You can create a new flow by creating a new class that inherits from `XiansAi.Flow.FlowBase`.
+To create a new flow, create a class that inherits from `XiansAi.Flow.FlowBase`.
 
 !!! note "Tip"
-    We are creating a simple flow. We will learn about more complex and meaningful flows that users `Agents` and `Instructions` in the next sections.
+    This example demonstrates a simple flow. In later sections, we'll explore more complex flows using `Agents` and `Instructions`.
 
 `SimpleFlow.cs >`
 
@@ -28,19 +28,18 @@ public class SimpleFlow: FlowBase
 ```
 
 !!! warning "Important"
-    The name workflow must be unique within your organization. You can see the list of workflow definitions on the XiansAI portal. You can change the name of the workflow by setting it at the `[Workflow]` attribute.
-
+    Each workflow name must be unique within your organization. You can view existing workflow definitions in the XiansAI portal. To customize a workflow's name, use the [Workflow] attribute:
     ```csharp
     [Workflow("My New Named Flow")]
     public class SimpleFlow: FlowBase
     ```
 
 !!! abstract "Did you know?"
-    Did you know that Xians.ai is capable of long running (persistent) flows? This means you are able to delay a workflow for days or months as required. The workflow will be paused and resumed when the delay is over.
+    Xians.ai supports long-running (persistent) flows. This means your workflow can be paused for days or months and will automatically resume when the delay period ends.
 
-## Configuring flow visualization
+## Enabling flow visualization
 
-We need to configure bundling the source code of the flow file into the assembly. Although this is not needed to execute flows, this is required for the flow visualization to work. Do this by adding the following xml to your `.csproj` file:
+To enable flow visualization, you need to bundle the flow's source code into the assembly. Add the following XML to your `.csproj` file:
 
 ```xml
   <ItemGroup>
@@ -51,19 +50,20 @@ We need to configure bundling the source code of the flow file into the assembly
   </ItemGroup>
 ```
 
-Basically this tells the compiler to include the `SimpleFlow.cs` file in the assembly as an embedded resource. 
+This configuration embeds the SimpleFlow.cs file as a resource in your assembly.
 
 !!! note "Tip"
-    If the file is in a different folder, you need to update the `Include` attribute to the full path of the file. Example: `Include="MyNamespace/SimpleFlow.cs"`
+    If your flow file is in a subdirectory, specify the full path in the Include attribute. For example: Include="MyNamespace/SimpleFlow.cs"
 
 ## Registering the Flow Runner
 
-To register the flow, you need to add the new flow to Flow Runner on your `Program.cs` file. Update the `Program.cs` file with the following code:
+To register your flow, add it to the Flow Runner in your Program.cs file:
 
 `Program.cs >`
 
 ```csharp
 using XiansAi.Flow;
+using DotNetEnv;
 
 // Env config via DotNetEnv
 Env.Load(); // OR Manually set the environment variables
@@ -87,30 +87,42 @@ catch (OperationCanceledException)
 
 ```
 
-To run the flow, you can run the following command:
+To start the flow runner:
 
 ```bash
 dotnet build    
 dotnet run
 ```
 
-FlowRunner now waits to run the flows you are starting. You can start a new flow on the XiansAI portal by visiting the 'Flow Definitions' section and clicking on the 'Start New' button of your new flow Type (SimpleFlow).
+The Flow Runner will now wait for flow execution requests. To start a new flow, visit the 'Flow Definitions' section in the XiansAI portal and click the 'Start New' button for your SimpleFlow.
 
-!!! bug "Name not unique error"
-    If you get the following error, you need to change the name of the flow. See above for how to change the name of the flow.
-
+!!! bug "Duplicate Name Error"
+    If you receive this error:
     ```bash
     > Bad Request: "Another user has already used this flow type name SimpleFlow. Please choose a different flow name."
     ```
+    You'll need to choose a unique name using the [Workflow] attribute as shown earlier.
 
 ![Start New Flow](../images/start-new-flow.png)
 
-You can see the flow definition details and the flow visualization on the XiansAI portal.
+You can view flow definition details and visualizations in the XiansAI portal.
 
 ![Flow Definition Details](../images/flow-visualization.png)
 
-## Run the Flow
+## Running the Flow
 
-You can run the flow by clicking on the 'Start New' button on the flow definitions page. You should now see a new flow run on the 'Flow Runs' section of the XiansAI portal. Refresh if your run is not visible as it may require a few seconds to start.
+To execute your flow:
+
+1. Navigate to the flow definitions page
+2. Click the 'Start New' button
+3. Monitor the 'Flow Runs' section to track your flow's execution
+
+Note: It may take a few seconds for your flow run to appear. Refresh the page if needed.
 
 ![Flow Runs](../images/flow-runs.png)
+
+## Next Steps
+
+Now that you've created your first flow, learn how to create a Flow with Activities to explore more advanced flow capabilities.
+
+[Create a Flow with Activities](3-activity-flow.md)

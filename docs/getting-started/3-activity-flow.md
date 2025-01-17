@@ -2,17 +2,12 @@
 
 ## What are Activities?
 
-Activities are the building blocks of a flow. They are the steps that are executed in a flow. Activities are defined as interfaces and implemented by classes.
+Activities are the building blocks of a flow which perform IO operations with the external world. They are the steps that are executed in a flow. Activities are defined as interfaces and implemented by classes.
 
-The `Flow` class is the main class that defines the flow. It contains the activities that are executed in the flow. `Flow` class is limited in it capabilities. It cannot perform any IO such as reading from a file or database. You can consider it as a `configuration file` of the flow, just that we have a full power of a programming language at our disposal.
+The `Flow` class defines the flow and orchestrates the activities. It calls the activities that are executed in the flow. However, the `Flow` class is limited in it capabilities. It cannot perform any IO such as reading from a file or database. You can consider it as a `configuration` of the flow, just that we have a full power of a programming language at our disposal.
 
 !!! info "Flow Constraints"
-    Flow.ai uses the [Temporal](https://temporal.io/) services to run flows. Temporal is an workflow engine system that allows you to run long running, robust and reliable flows. You can read more about Flow constraints [here](https://docs.temporal.io/workflows).
-
-You can create a new flow by creating a new class that inherits from `XiansAi.Flow.FlowBase`.
-
-!!! note "Teaser Tip"
-    We are creating a simple flow. We will learn about more complex and meaningful flows that users `Agents` and `Instructions` in the next sections.
+    Flow.ai uses the [Temporal](https://temporal.io/) services to run flows. Temporal is an workflow engine that is capable of running long-lived, robust and reliable flows. You can read more about Flow constraints [here](https://docs.temporal.io/workflows).
 
 `SimpleFlow.cs >`
 

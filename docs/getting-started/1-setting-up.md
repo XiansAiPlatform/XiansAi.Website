@@ -2,51 +2,60 @@
 
 ## Prerequisites
 
+Before you begin, ensure you have installed:
+
 - [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 
-## Creating a DotNet Project
+## Creating Your Project
 
-Workflow Projects are Executable DotNet Projects that can be run locally and deployed to any server environment.
-
-To create a new DotNet Console Project, you can use the following command:
+Xians.ai flows run as standard .NET applications, which can be executed locally or deployed to any server environment. Let's create a new project:
 
 ```bash
 dotnet new console -n MyNewXiansAiFlow
 cd MyNewXiansAiFlow
 ```
 
-## Adding the Xians.ai SDK
+## Installing the SDK
 
-To add the Xians.ai SDK to your project, you can use the following command:
+Add the Xians.ai SDK to your project:
 
 ```bash
 dotnet add package XiansAi.Lib
 ```
 
-!!! note "Expert Tip"
-    If you are using locally cloned XiansAi.Lib repository, add a Project Reference instead of the Nuget Package. E.g.,
+!!! tip "Local Development"
+    If you're working with a local copy of the XiansAi.Lib repository, add it as a project reference in your .csproj file:
     ```xml
     <ItemGroup>
         <ProjectReference Include="..\XiansAi.Lib\XiansAi.Lib.csproj" />
     </ItemGroup>
     ```
 
-## Create a new flow
+## Understanding the Platform
 
-You will create a new flow and the necessary activities that will be used in the flow. These flows will run your local machine while development, and you may deploy to any server environment.
+The XiansAi platform consists of two main components:
 
-XiansAi.Lib is the library that connects your flow with the XiansAI platform. There are 2 parts in the XiansAi platform:
+### App Server
 
-1. App Server: This is the server that allows you to manage your flows and instructions. It provides visibility into the flow execution and allows you to manage your flows and instructions.
-2. Flow Server: This is the server that will run your flow. It is the server that will be deployed to the XiansAI platform.
+- Manages your flows and instructions
+- Provides monitoring and visualization
+- Handles flow administration
 
-Next we will download the necessary certificates to configure the Flow Runner.
+### Flow Server
 
-## Download Necessary Certificates
+- Executes your flows
+- Manages workflow state and persistence
+- Handles distributed execution
 
-To create a new flow, we need a create a `FlowRunnerService` instance and provide it with the 'flow' and 'activity' classes.
+## Configuration Setup
 
-To configure the `FlowRunnerService` with XiansAi platform, add the following code to your `Program.cs`.
+1. Download Certificates
+First, visit the XiansAi portal's Settings section to download your certificates:
+
+![Settings](../images/portal-settings.png)
+
+1. Configure Environment Variables
+Add the following configuration to your Program.cs file to configure the `FlowRunnerService` with XiansAi platform.
 
 `Program.cs >`
 
@@ -61,60 +70,61 @@ Environment.SetEnvironmentVariable("FLOW_SERVER_NAMESPACE", "<your-flow-server-n
 Environment.SetEnvironmentVariable("FLOW_SERVER_CERT_PATH", "<your-flow-server-cert-path>");
 Environment.SetEnvironmentVariable("FLOW_SERVER_PRIVATE_KEY_PATH", "<your-flow-server-private-key-path>");
 
-var flowRunner = new FlowRunnerService(config);
+var flowRunner = new FlowRunnerService();
 
 // Register the flow (see the next section for more details)
 ```
 
-You can find the settings required to run the `FlowRunnerService` on the XiansAi portal's `Settings` section.
-
-![Settings](../images/portal-settings.png)
-
-Use the values from the XiansAI portal to configure the Environment variables. Set the local path to the certificate files you downloaded from the XiansAI portal.
-
-!!! note "Expert Tip"
+!!! tip "Using Environment Files"
+    For better security and maintainability, use a .env file to manage your configuration:
     You can use a package like [DotNetEnv](https://github.com/tonerdo/dotnet-env) to load the environment variables from the `.env` file without hardcoding them in your code.
 
     `.env file >`
-
     ``` .env
     # Platform environment variables
-    FLOW_SERVER_URL=tenant-99x.ozqzb.tmprl.cloud:7233
-    FLOW_SERVER_NAMESPACE=tenant-99x.ozqzb
+    FLOW_SERVER_URL=tenant-xyz.ozqzb.tmprl.cloud:7233
+    FLOW_SERVER_NAMESPACE=tenant-xyz.ozqzb
     FLOW_SERVER_CERT_PATH=./.cert/FlowServerCert-1736928807581.crt
     FLOW_SERVER_PRIVATE_KEY_PATH=./.cert/FlowServerPrivateKey-1736928808385.key
-
     APP_SERVER_URL=https://api.xians.ai
     APP_SERVER_CERT_PATH=./.cert/AppServerCert-1736979268735.pfx
     APP_SERVER_CERT_PWD=test
     ```
-
+    Update your Program.cs:
     `Program.cs >`
-
     ```csharp
+    using XiansAi.Flow;
     using DotNetEnv;
-    ...
+    // Load the environment variables from the .env file
     Env.Load();
+    var flowRunner = new FlowRunnerService();
     ```
 
-## Validate the configuration
+## Validating Your Setup
 
-To validate the configuration, lets temporarily call `TestMe()` method from the `FlowRunnerService` instance.
+Test your configuration:
 
 ```csharp
 ...
 var flowRunner = new FlowRunnerService();
-flowRunner.TestMe(); // temp method to validate the configuration
+await flowRunner.TestMe(); // temp method to validate the configuration
 ```
 
-Now run the following command:
+Run the application:
 
 ```bash
 dotnet run
 ```
 
-If you do not get errors, your configuration is correct. You can now remove the test call to `TestMe()` method in your code.
+If no errors occur, your setup is complete. Remember to remove the `TestMe()` call after validation.
+
+!!! warning "Troubleshooting"
+    Common issues include:
+
+    - Incorrect certificate paths
+    - Missing environment variables
+    - Invalid credentials
 
 ## Next Steps
 
-Now that you have set up your environment, you can proceed to [create your first flow](2-first-flow.md).
+With your environment configured, you're ready to [create your first flow](2-first-flow.md).
