@@ -89,6 +89,14 @@ Use the values from the XiansAI portal to configure the Environment variables. S
     APP_SERVER_CERT_PWD=test
     ```
 
+    `Program.cs >`
+
+    ```csharp
+    using DotNetEnv;
+    ...
+    Env.Load();
+    ```
+
 ## Validate the configuration
 
 To validate the configuration, lets temporarily call `TestMe()` method from the `FlowRunnerService` instance.
