@@ -65,7 +65,7 @@ using System.Text.Json;
 using XiansAi.Activity;
 using System.Text;
 
-public class ComposerActivity : BaseActivity, IComposerActivity 
+public class ComposerActivity : ActivityBase, IComposerActivity 
 {
     private static string URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={0}";
 
@@ -125,7 +125,7 @@ public class ComposerActivity : BaseActivity, IComposerActivity
 
 The `ComposerActivity` class:
 
-- Inherits from `BaseActivity` and implements `IComposerActivity`
+- Inherits from `ActivityBase` and implements `IComposerActivity`
 - Handles communication with Gemini's API
 - Contains methods to:
     - Generate poems using provided keywords

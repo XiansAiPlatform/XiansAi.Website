@@ -23,7 +23,7 @@ The `Flow` class serves as the orchestrator and defines the sequence of activiti
 
 Activities are where the actual work happens:
 
-- Implemented as classes that inherit from `BaseActivity`
+- Implemented as classes that inherit from `ActivityBase`
 - Define concrete implementations of IO operations
 - Can be tested and mocked independently
 - Are executed by the Flow orchestrator
@@ -109,7 +109,7 @@ Create an activity to fetch user information:
 using System.Text.Json;
 using XiansAi.Activity;
 
-public class UserActivity : BaseActivity, IUserActivity
+public class UserActivity : ActivityBase, IUserActivity
 {
     private readonly HttpClient _client = new HttpClient();
     private static string URL = "https://jsonplaceholder.typicode.com/users/{0}";
@@ -133,7 +133,7 @@ Create an activity to fetch movie suggestions:
 using System.Text.Json;
 using XiansAi.Activity;
 
-public class MovieActivity : BaseActivity, IMovieActivity 
+public class MovieActivity : ActivityBase, IMovieActivity 
 {
     private readonly HttpClient _client = new HttpClient();
     private static string URL = "https://freetestapi.com/api/v1/movies/{0}";
@@ -227,3 +227,7 @@ dotnet run
     - Unit test activities independently
     - Mock external services in tests
     - Test different failure scenarios
+
+## Next Steps
+
+- [Learn about Instructions](../2-instructions/1-manage-instructions.md)

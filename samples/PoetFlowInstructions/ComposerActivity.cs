@@ -11,7 +11,8 @@ public class ComposerActivity : ActivityBase, IComposerActivity
         var apiKey = Environment.GetEnvironmentVariable("GEMINI_API_KEY");
         var url = string.Format(URL, apiKey);
 
-        var instruction = "Write a poem using the given keywords";
+        var instruction = await GetInstructionAsync() ?? throw new Exception("Instruction not found");
+        LogInfo($"Instruction from server: {instruction}");
 
         var jsonPayload = CreateJsonPayload(instruction, keywords);
         var jsonContent = new StringContent(JsonSerializer.Serialize(jsonPayload), Encoding.UTF8, "application/json");
