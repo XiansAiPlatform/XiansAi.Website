@@ -34,7 +34,7 @@ nav:
   - Instructions:
     - Manage Instructions: 2-instructions/1-manage-instructions.md
     - Flow Without Instructions: 2-instructions/2-without-instructions.md
-    - Flow With Instructions: 2-instructions/3-using-instructions.md
+    - Using Instructions: 2-instructions/3-using-instructions.md
   - Agents:
     - What are Agents: 3-agents/1-what-are-agents.md
     - Using Agents: 3-agents/2-using-agents.md

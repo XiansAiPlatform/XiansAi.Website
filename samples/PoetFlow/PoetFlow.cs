@@ -1,7 +1,7 @@
 using Temporalio.Workflows;
 using Temporalio.Activities;
 using XiansAi.Flow;
-
+using XiansAi.Activity;
 [Workflow("Poet Flow")]
 public class PoetFlow: FlowBase
 {
@@ -18,6 +18,7 @@ public class PoetFlow: FlowBase
 public interface IComposerActivity
 {
     [Activity]
+    [Instructions("How to Generate a Poem")]
     Task<string?> GeneratePoemAsync(string keywords);
 }
 

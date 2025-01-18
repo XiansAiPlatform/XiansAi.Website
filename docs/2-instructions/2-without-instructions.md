@@ -1,10 +1,18 @@
 # Flow Without Instructions
 
-To try instructions, lets create a new flow that generates a poem using the Gemini API.
+This example demonstrates how to create a poetry generation flow using the Gemini API. The flow takes some words as input and returns a generated poem.
 
-## 1. Create a new flow
+## Flow Overview
 
-Create a new PoetFlow.cs file and add the following code to it.
+The PoetFlow consists of:
+
+- A workflow that orchestrates the poem generation
+- An activity that handles the Gemini API communication
+- A program to run the flow
+
+## 1. Create the Flow Definition
+
+First, create `PoetFlow.cs` which defines the workflow and activity interface:
 
 `> PoetFlow.cs`
 
@@ -34,9 +42,21 @@ public interface IComposerActivity
 
 ```
 
-## 2. Add activity to the flow
+The `PoetFlow` class:
 
-Create a new activity that will be used to generate the poem.
+- Inherits from `FlowBase` to get core workflow functionality
+- Is decorated with `[Workflow]` attribute to mark it as a Temporal workflow
+- Contains a `Run` method that:
+  - Takes keywords as input
+  - Creates a composer activity
+  - Executes the poem generation
+  - Returns the generated poem
+
+The `IComposerActivity` interface defines the contract for poem generation.
+
+## 2. Implement the Activity
+
+Create `ComposerActivity.cs` to handle the Gemini API interaction:
 
 `> ComposerActivity.cs`
 
@@ -103,19 +123,29 @@ public class ComposerActivity : BaseActivity, IComposerActivity
 }
 ```
 
-## Gemini API Key
+The `ComposerActivity` class:
 
-Obtain a Gemini API key from the [Gemini API Key](https://aistudio.google.com/apikey) page.
+- Inherits from `BaseActivity` and implements `IComposerActivity`
+- Handles communication with Gemini's API
+- Contains methods to:
+    - Generate poems using provided keywords
+    - Format the API request payload
+    - Parse the API response
 
-update your .env file with the Gemini API key.
+## 3. Configure Gemini API Access
+
+You'll need a Gemini API key to use the service:
+
+1. Get your API key from [Gemini API Key](https://aistudio.google.com/apikey)
+2. Add it to your `.env` file:
 
 ```.env
 GEMINI_API_KEY=<your-gemini-api-key>
 ```
 
-## 3. Run the flow
+## 4. Setup the Runner
 
-Create a new program.cs file and add the following code to it.
+Create `Program.cs` to run the flow:
 
 `> Program.cs`
 
@@ -153,25 +183,40 @@ catch (OperationCanceledException)
 }
 ```
 
-## 4. Start the FlowRunnerService
+The program:
 
-Run the program by executing the following command in your terminal.
+- Loads environment variables
+- Configures logging
+- Sets up cancellation handling
+- Creates and runs the flow using `FlowRunnerService`
+
+## 5. Running the Flow
+
+1. Start the service:
 
 ```bash
 dotnet run
 ```
 
-## 5. Create New Flow on XIans AI Portal
+1. Use the XiansAI Portal:
+    - Go to 'Flow Definitions'
+    - Locate 'PoetFlow'
+    - Enter keywords (e.g., "love, romance, moon, stars")
+    - Click 'Start New'
 
-- Navigate to the XiansAI portal
-- Go to 'Flow Definitions' section
-- Find your 'PoetFlow'
-- Provide comma separated keywords for the poem e.g. "love, romance, moon, stars"
-- Click 'Start New' to begin execution
+1. Monitor execution:
+    - Check 'Flow Runs' section
+    - Select your flow execution
+    - View results and details
 
-## 6. View the Flow Execution
+## Instruction - Limitations
 
-- Navigate to the XiansAI portal
-- Go to 'Flow Runs' section
-- Find your 'PoetFlow'
-- Click on the execution to view the details
+The flow we implemented hard codes the instructions to the Gemini API. This is not ideal for a number of reasons.
+
+- When business requirements change, we need to update the code.
+- Business users are not able to change the instructions.
+- We are not able to track the instructions used in the flow.
+
+In the next example, we will see how to manage instructions in XiansAI Portal instead of hard coding them in the code.
+
+[Using Instructions](./3-using-instructions.md)

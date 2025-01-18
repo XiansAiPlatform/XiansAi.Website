@@ -20,7 +20,7 @@ To create new instructions:
 2. Navigate to the Instructions section
 3. Click the "Create New Instruction" button
 
-![Create Instructions](/images/create-instruction.png)
+![Create Instructions](../images/create-instruction.png)
 
 ### Best Practices for Writing Instructions
 
@@ -39,7 +39,7 @@ Instructions in XiansAI support versioning, allowing you to:
 - Test different variations of instructions
 - Maintain consistency across your applications
 
-![Version Instructions](/images/instruction-versions.png)
+![Version Instructions](../images/instruction-versions.png)
 
 ### Creating New Versions
 
@@ -50,10 +50,16 @@ To create a new version:
 3. Make your changes to the instruction content
 4. Save the new version
 
-![Create New Version](/images/create-new-instruction-version.png)
+![Create New Version](../images/create-new-instruction-version.png)
 
 ### Version Management
 
 - By default, agents use the latest version of instructions
 - You can specify a particular version when requesting for instructions
 - Previous versions are preserved and can be restored if needed
+
+## Next Step
+
+To understand how instructions work in XiansAI, let's see 2 examples:
+
+[Flow without instructions](./2-without-instructions.md)
