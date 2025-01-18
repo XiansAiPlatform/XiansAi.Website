@@ -9,13 +9,13 @@
 
   <ItemGroup>
     <!-- Embed the flow source files -->
-    <EmbeddedResource Include="SimpleFlow.cs">
+    <EmbeddedResource Include="MovieSuggestionFlow.cs">
         <LogicalName>%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-      <ProjectReference Include="..\..\..\XiansAi.Lib\XiansAi.Lib.csproj" />
+    <ProjectReference Include="..\..\..\XiansAi.Lib\XiansAi.Lib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -204,10 +204,11 @@ dotnet run
 1. The Flow Runner will start and wait for execution requests.
 
 1. To execute a flow:
-   - Navigate to the XiansAI portal
-   - Go to 'Flow Definitions' section
-   - Find your 'MovieSuggestionFlow'
-   - Click 'Start New' to begin execution
+
+    - Navigate to the XiansAI portal
+    - Go to 'Flow Definitions' section
+    - Find your 'MovieSuggestionFlow'
+    - Click 'Start New' to begin execution
 
 ## Best Practices
 

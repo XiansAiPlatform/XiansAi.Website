@@ -10,6 +10,10 @@ Welcome to the official documentation for Xians.ai. Here you'll find everything 
 
 - **[Agents](3-agents/1-what-are-agents.md)** - Using agents
 
+## Code Samples
+
+- [All Samples](https://github.com/XiansAiPlatform/XiansAi.PublicDocs/tree/main/samples)
+
 ## GitHub
 
 - Visit our [GitHub repository](https://github.com/XiansAiPlatform)

@@ -1,20 +1,30 @@
 ﻿using XiansAi.Flow;
 using DotNetEnv;
+using Microsoft.Extensions.Logging;
 
 // Env config via DotNetEnv
 Env.Load(); // OR Manually set the environment variables
 
-// Define the flow
-var flowInfo = new FlowInfo<SimpleFlow>();
+FlowRunnerService.SetLoggerFactory(LoggerFactory.Create(builder => 
+    builder
+        .SetMinimumLevel(LogLevel.Debug)
+        .AddConsole()
+));
 
 // Cancellation token cancelled on ctrl+c
 var tokenSource = new CancellationTokenSource();
 Console.CancelKeyPress += (_, eventArgs) =>{ tokenSource.Cancel(); eventArgs.Cancel = true;};
 
+// Define the flow
+var flowInfo = new FlowInfo<MovieSuggestionFlow>();
+flowInfo.AddActivities<IUserActivity>(new UserActivity());
+flowInfo.AddActivities<IMovieActivity>(new MovieActivity());
+
 try
 {
+    var runner = new FlowRunnerService();
     // Run the flow by passing the flow info to the FlowRunnerService
-    await new FlowRunnerService().RunFlowAsync(flowInfo, tokenSource.Token);
+    await runner.RunFlowAsync(flowInfo, tokenSource.Token);
 }
 catch (OperationCanceledException)
 {

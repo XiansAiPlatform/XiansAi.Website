@@ -103,6 +103,13 @@ The Flow Runner will now wait for flow execution requests. To start a new flow, 
     ```
     You'll need to choose a unique name using the [Workflow] attribute as shown earlier.
 
+!!! bug "'DotNetEnv' could not be found"
+    If you receive this error:
+    ```bash
+    > The type or namespace name 'DotNetEnv' could not be found (are you missing a using directive or an assembly reference?)
+    ```
+    You'll need to install the `DotNetEnv` package. See the [Getting Started](./1-setting-up.md) section for more information.
+
 ![Start New Flow](../images/start-new-flow.png)
 
 You can view flow definition details and visualizations in the XiansAI portal.
