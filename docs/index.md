@@ -4,14 +4,16 @@ Welcome to the official documentation for Xians.ai. Here you'll find everything 
 
 ## Quick Navigation
 
-- **[Getting Started](getting-started/1-setting-up.md)** - Set up your environment and create your first flow
+- **[Getting Started](1-getting-started/1-setting-up.md)** - Set up and create your first flow
 
-## Getting Help
+- **[Instructions](2-instructions/1-manage-instructions.md)** - Working with instructions
 
-- Check our [documentation](getting-started/1-setting-up.md)
+- **[Agents](3-agents/1-what-are-agents.md)** - Using agents
+
+## GitHub
+
 - Visit our [GitHub repository](https://github.com/XiansAiPlatform)
-- Contact our support team at support@xians.ai
 
 ## Latest Updates
 
-Stay tuned for the latest updates and features. Follow our [changelog](https://github.com/XiansAiPlatform/XiansAi.Website/releases) for detailed release information.
+Stay tuned for the latest updates and features. Follow our [changelog](https://github.com/XiansAiPlatform/XiansAi.Lib/releases) for detailed release information.

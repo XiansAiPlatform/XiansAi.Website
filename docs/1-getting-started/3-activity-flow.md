@@ -2,21 +2,50 @@
 
 ## What are Activities?
 
-Activities are the building blocks of a flow which perform IO operations with the external world. They are the steps that are executed in a flow. Activities are defined as interfaces and implemented by classes.
+Activities are the fundamental building blocks of a flow that handle external interactions and IO operations. They represent discrete steps in your workflow that interact with external systems, such as:
 
-The `Flow` class defines the flow and orchestrates the activities. It calls the activities that are executed in the flow. However, the `Flow` class is limited in it capabilities. It cannot perform any IO such as reading from a file or database. You can consider it as a `configuration` of the flow, just that we have a full power of a programming language at our disposal.
+- Making HTTP requests
+- Reading/writing to databases
+- Calling external services
+- File system operations
+
+## Understanding Flow Architecture
+
+### The Flow Class
+
+The `Flow` class serves as the orchestrator and defines the sequence of activities to be executed. While powerful in coordinating activities, the Flow class itself:
+
+- Cannot perform direct IO operations
+- Should only contain workflow logic and activity coordination
+- Acts as a configuration layer using the full power of C#
+
+### Activities
+
+Activities are where the actual work happens:
+
+- Implemented as classes that inherit from `BaseActivity`
+- Define concrete implementations of IO operations
+- Can be tested and mocked independently
+- Are executed by the Flow orchestrator
 
 !!! info "Flow Constraints"
-    Flow.ai uses the [Temporal](https://temporal.io/) services to run flows. Temporal is an workflow engine that is capable of running long-lived, robust and reliable flows. You can read more about Flow constraints [here](https://docs.temporal.io/workflows).
+    Flow.ai uses [Temporal](https://temporal.io/) as its underlying workflow engine. Temporal provides:
+    - Durability for long-running workflows
+    - Automatic retry mechanisms
+    - State management
+    - Error handling
+    You can read more about Flow constraints in the [Temporal documentation](https://docs.temporal.io/workflows).
 
-## A Flow with 2 Activities
+## Example: Movie Suggestion Flow
 
-We will create a flow that demonstrates activity usage by integrating with two external APIs to propose movie suggestions for a users.
+Let's create a practical example that demonstrates activity usage by building a movie suggestion system. This flow will:
 
-## Workflow Class
+1. Fetch user details from an external API
+2. Get movie suggestions based on the user information
 
-- Extend the `FlowBase` class to create a workflow.
-- Define the interfaces for the activities that will be used in the flow.
+### 1. Define the Flow Class
+
+First, create the workflow class that orchestrates the activities:
 
 `> MovieSuggestionFlow.cs`
 
@@ -44,7 +73,7 @@ public class MovieSuggestionFlow: FlowBase
             var userName = await RunActivityAsync(
                     (IUserActivity a) => a.GetUserNameAsync(id));
         
-            // Step 2: Get an activity suggestion from Bored API
+            // Step 2: Get a movie suggestion from Movie API
             var movie = await RunActivityAsync(
                     (IMovieActivity a) => a.GetMovieAsync(userName));
 
@@ -52,17 +81,16 @@ public class MovieSuggestionFlow: FlowBase
             result.Add(new { User = userName, Movie = movie });
         }
 
-        // Return the results as an array
         return result.ToArray();
     }
 }
 
+// Activity interfaces define the contract for our activities
 public interface IUserActivity
 {
     [Activity]
     Task<string?> GetUserNameAsync(int id);
 }
-
 
 public interface IMovieActivity
 {
@@ -71,10 +99,9 @@ public interface IMovieActivity
 }
 ```
 
-## Activity UserActivity
+### 2. Implement the User Activity
 
-- Extend the `BaseActivity` class to create an activity.
-- Implement the activity interface.
+Create an activity to fetch user information:
 
 `> UserActivity.cs`
 
@@ -85,22 +112,20 @@ using XiansAi.Activity;
 public class UserActivity : BaseActivity, IUserActivity
 {
     private readonly HttpClient _client = new HttpClient();
-
     private static string URL = "https://jsonplaceholder.typicode.com/users/{0}";
 
     public async Task<string?> GetUserNameAsync(int id)
     {
         var response = await _client.GetStringAsync(string.Format(URL, id));
-
-        return JsonSerializer.Deserialize<JsonDocument>(response)?.RootElement.GetProperty("name").GetString();
+        return JsonSerializer.Deserialize<JsonDocument>(response)?.RootElement
+            .GetProperty("name").GetString();
     }
 }
 ```
 
-## Activity MovieActivity
+### 3. Implement the Movie Activity
 
-- Extend the `BaseActivity` class to create an activity.
-- Implement the activity interface.
+Create an activity to fetch movie suggestions:
 
 `> MovieActivity.cs`
 
@@ -111,7 +136,6 @@ using XiansAi.Activity;
 public class MovieActivity : BaseActivity, IMovieActivity 
 {
     private readonly HttpClient _client = new HttpClient();
-
     private static string URL = "https://freetestapi.com/api/v1/movies/{0}";
 
     public async Task<string?> GetMovieAsync(string? userName)
@@ -124,7 +148,9 @@ public class MovieActivity : BaseActivity, IMovieActivity
 }
 ```
 
-## Program
+### 4. Configure and Run the Flow
+
+Set up the flow runner in your program:
 
 `> Program.cs`
 
@@ -133,20 +159,24 @@ using XiansAi.Flow;
 using DotNetEnv;
 using Microsoft.Extensions.Logging;
 
-// Env config via DotNetEnv
-Env.Load(); // OR Manually set the environment variables
+// Load environment configuration
+Env.Load();
 
+// Configure logging
 FlowRunnerService.SetLoggerFactory(LoggerFactory.Create(builder => 
     builder
         .SetMinimumLevel(LogLevel.Debug)
         .AddConsole()
 ));
 
-// Cancellation token cancelled on ctrl+c
+// Setup cancellation token for graceful shutdown
 var tokenSource = new CancellationTokenSource();
-Console.CancelKeyPress += (_, eventArgs) =>{ tokenSource.Cancel(); eventArgs.Cancel = true;};
+Console.CancelKeyPress += (_, eventArgs) =>{ 
+    tokenSource.Cancel(); 
+    eventArgs.Cancel = true;
+};
 
-// Define the flow
+// Configure the flow
 var flowInfo = new FlowInfo<MovieSuggestionFlow>();
 flowInfo.AddActivities<IUserActivity>(new UserActivity());
 flowInfo.AddActivities<IMovieActivity>(new MovieActivity());
@@ -154,23 +184,45 @@ flowInfo.AddActivities<IMovieActivity>(new MovieActivity());
 try
 {
     var runner = new FlowRunnerService();
-    // Run the flow by passing the flow info to the FlowRunnerService
     await runner.RunFlowAsync(flowInfo, tokenSource.Token);
 }
 catch (OperationCanceledException)
 {
     Console.WriteLine("Application shutdown requested. Shutting down gracefully...");
 }
-
 ```
 
-Notice how the activities are defined as interfaces and implemented by classes.
+## Running the Flow
 
-## Start the Flow Runner
+1. Build and run the application:
 
 ```bash
 dotnet build
 dotnet run
 ```
 
-The Flow Runner will now wait for flow execution requests. To start a new flow, visit the 'Flow Definitions' section in the XiansAI portal and click the 'Start New' button for your MovieSuggestionFlow.
+1. The Flow Runner will start and wait for execution requests.
+
+1. To execute a flow:
+   - Navigate to the XiansAI portal
+   - Go to 'Flow Definitions' section
+   - Find your 'MovieSuggestionFlow'
+   - Click 'Start New' to begin execution
+
+## Best Practices
+
+1. **Activity Design**
+
+    - Keep activities focused on a single responsibility
+    - Make activities idempotent when possible
+    - Handle errors appropriately within activities
+
+2. **Flow Design**
+
+    - Use the Flow class for orchestration only
+    - Consider custom retry policies for activities as required
+
+3. **Testing**
+    - Unit test activities independently
+    - Mock external services in tests
+    - Test different failure scenarios
