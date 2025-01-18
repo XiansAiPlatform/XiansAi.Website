@@ -1,34 +1,41 @@
 # Using Instructions
 
-## Create a new Instruction
+## Creating Instructions
 
-Go to the [XiansAI Portal](https://xians.ai) and click on the `Instructions` page. Click on the `Create New` button to create a new instruction.
+To create a new instruction:
+
+1. Navigate to the [XiansAI Portal](https://xians.ai)
+2. Go to the `Instructions` page
+3. Click `Create New`
 
 ![Create New Instruction](../images/poem-instruction.png)
 
-Provide following information for the instruction and click on the `Create` button.
+Fill in the following fields:
 
-- Name: `How to Generate a Poem`
-- Type: `Markdown`
-- Instruction:
+- **Name**: A unique identifier (e.g. `How to Generate a Poem`)
+- **Type**: `Markdown`
+- **Instruction**: The actual instruction content in markdown format
 
-    ```
-    # How to Generate a Poem
+Example instruction content:
 
-    ## Your Role
-    You are a poet. You are given a set of keywords and you need to generate a poem. Make the poem engaging and interesting. It should be around 100 words long.
+```markdown
+# How to Generate a Poem
 
-    ## Audience
-    You are writing for children aged 10-12.
+## Your Role
+You are a poet who creates engaging poems for children using given keywords.
 
-    ## Your Task
-    Generate a poem using the given keywords. All the keywords should be used in the poem.
+## Audience
+Children aged 10-12 years old.
 
-    ```
+## Your Task
+Generate an engaging poem (~100 words) that incorporates all provided keywords.
+```
 
-## Modify Workflow Classes
+## Using Instructions in Code
 
-Modify `IComposerActivity.GeneratePoemAsync()` method to decorate it with `[Instruction]` attribute. The name of the instruction should be the same as the name of the instruction we created in the previous step.
+### 1. Decorate Activity Methods
+
+Add the `[Instructions]` attribute to methods that should use instructions:
 
 `> PoetFlow.cs`
 
@@ -41,40 +48,49 @@ public interface IComposerActivity
 }
 ```
 
-Now you can request for the instruction to be used in the method code. Modify `ComposerActivity.cs` we created in the [first example](./2-without-instructions.md) to use the new instruction.
+### 2. Load Instructions in Activity Implementation
+
+Use the `GetInstruction()` helper method to load instructions at runtime:
 
 `> ComposerActivity.cs`
 
 ```csharp
-
-using System.Text.Json;
-using XiansAi.Activity;
-using System.Text;
-
 public class ComposerActivity : ActivityBase, IComposerActivity 
 {
-    ...
-
     public async Task<string?> GeneratePoemAsync(string keywords)
     {
-        ...
-
-        //var instruction = "Write a poem using the given keywords";
+        // Load the instruction from XiansAI portal
         var instruction = await GetInstruction() ?? throw new Exception("Instruction not found");
-
-        ...
+        
+        // Use the instruction...
     }
-
-    ...
 }
 ```
 
-!!! note "Multiple Instructions"
-    You can define multiple instructions on the Instruction Attribute.
-    ```csharp
-    [Instructions("How to Generate a Poem", "How to Generate a Story")]
-    ```
-    Then you can obtain the instructions by passing the index of the instruction to `GetInstruction()` method. The index is 1 for the first instruction and 2 for the second instruction and so on.
-    ```csharp
-    var instruction = await GetInstruction(1);
-    ```
+## Working with Multiple Instructions
+
+You can specify multiple instructions for a single method:
+
+```csharp
+[Instructions("How to Generate a Poem", "How to Generate a Story")]
+```
+
+Load specific instructions by index (1-based):
+
+```csharp
+// Load first instruction
+var poemInstruction = await GetInstruction(1);
+
+// Load second instruction
+var storyInstruction = await GetInstruction(2);
+```
+
+!!! note
+    The `GetInstruction()` method is provided by `ActivityBase` and automatically fetches instructions from the XiansAI portal based on the `[Instructions]` attribute configuration.
+
+
+## Next Steps
+
+Now we are able to use instructions in our code. Next, we will learn how to use `Agents`' to create more complex workflows.
+
+[Next: Using Agents](../3-agents/1-what-are-agents.md)
