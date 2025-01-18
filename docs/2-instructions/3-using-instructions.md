@@ -93,4 +93,4 @@ var storyInstruction = await GetInstruction(2);
 
 Now we are able to use instructions in our code. Next, we will learn how to use `Agents`' to create more complex workflows.
 
-[Next: Using Agents](../3-agents/1-what-are-agents.md)
+[Next: Using Agents](../3-agents/1-agent-types.md)

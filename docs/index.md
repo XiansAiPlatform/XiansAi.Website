@@ -8,7 +8,7 @@ Welcome to the official documentation for Xians.ai. Here you'll find everything 
 
 - **[Instructions](2-instructions/1-manage-instructions.md)** - Working with instructions
 
-- **[Agents](3-agents/1-what-are-agents.md)** - Using agents
+- **[Agents](3-agents/1-agent-types.md)** - Using agents
 
 ## Code Samples
 

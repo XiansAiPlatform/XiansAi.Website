@@ -36,9 +36,12 @@ nav:
     - Flow Without Instructions: 2-instructions/2-without-instructions.md
     - Using Instructions: 2-instructions/3-using-instructions.md
   - Agents:
-    - What are Agents: 3-agents/1-what-are-agents.md
-    - Using Agents: 3-agents/2-using-agents.md
-    - Creating Agents: 3-agents/3-creating-agents.md
+    - What are Agents: 3-agents/1-agent-types.md
+    - Using Agents:
+      - Package Agents: 3-agents/2-using-agents/1-package-agents.md
+      - Docker Agents: 3-agents/2-using-agents/2-docker-agents.md
+      - Remote Agents: 3-agents/2-using-agents/3-remote-agents.md
+      - Custom Agents: 3-agents/2-using-agents/4-custom-agents.md
 
 markdown_extensions:
   - tables
