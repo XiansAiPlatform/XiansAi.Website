@@ -15,7 +15,7 @@ public class UrlSearchActivity: ActivityBase, IUrlSearchActivity
 
     public async Task<string?> FindLinkedInUrl(string companyName)
     {
-        var query = $"site:linkedin.com/company {companyName} AS Norway";
+        var query = $"site:linkedin.com {companyName} AS Norway";
         var results = await _searchEngine.SearchAsync(query, 1);
         return results.Items.FirstOrDefault()?.Link;
     }

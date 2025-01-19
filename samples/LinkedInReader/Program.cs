@@ -18,6 +18,7 @@ Console.CancelKeyPress += (_, eventArgs) =>{ tokenSource.Cancel(); eventArgs.Can
 // Define the flow
 var flowInfo = new FlowInfo<LinkedInReaderFlow>();
 flowInfo.AddActivities<IUrlSearchActivity>(new UrlSearchActivity());
+flowInfo.AddActivities<IWebReaderActivity>(new WebReaderActivity());
 
 try
 {

@@ -1,16 +1,63 @@
 # Using Package Agents
 
-Package agents are distributed as NuGet packages and integrate directly into Xians.ai activities through a .NET SDK interface. Lets look at an example package agent usage.
+Package agents are pre-built components distributed as NuGet packages that seamlessly integrate into Xians.ai activities through the .NET SDK interface. They provide ready-to-use functionality that can be easily incorporated into your workflows.
 
-We will use `XiansAi.Agent.GoogleSearch` as an example.
+## Installation
 
-## Step 1: Install the NuGet Package
-
-To use the `XiansAi.Agent.GoogleSearch` package, you need to install it into your project. You can do this by running the following command in your 'Flow' project where your activity implementation is defined.
+Install the agent package into your project using the .NET CLI:
 
 ```bash
-dotnet add package XiansAi.Agent.GoogleSearch
+dotnet add package <package-name>
 ```
 
-## Step 2: Add the Agent to the Activity
+## Implementation Guide
 
+### 1. Define the Activity Interface
+
+Add the `Agent` attribute to your activity interface to enable proper integration with the Xians.ai Portal:
+
+```csharp
+[Agent("XiansAi.Agent.GoogleSearch", AgentType.Package)]
+public interface IUrlSearchActivity
+{
+    [Activity]
+    Task<string?> FindLinkedInUrl(string companyName);
+}
+```
+
+The `Agent` attribute requires two parameters:
+
+- `agentName`: The fully qualified name of the agent package
+- `agentType`: Set to `AgentType.Package` for package agents
+
+In the case of a package agent, this only serves information to the Xians.ai Portal. This attribute has no impact on the runtime of the workflow.
+
+### 2. Implement the Activity
+
+Create a class that inherits from `ActivityBase` and implements your interface:
+
+```csharp
+public class UrlSearchActivity : ActivityBase, IUrlSearchActivity
+{
+    private readonly ISearchAgent _searchAgent;
+
+    public UrlSearchActivity()
+    {
+        var apiKey = Environment.GetEnvironmentVariable("API_KEY");
+        // use the Nuget package to create an instance of the agent
+        _searchAgent = new GoogleSearchAgent(apiKey); // This is a hypothetical agent that we are using as an example
+    }
+
+    public async Task<string?> FindLinkedInUrl(string companyName)
+    {
+        // Utilize the agent's functionality
+        var results = await _searchAgent.SearchAsync($"site:linkedin.com {companyName} company");
+        return results.FirstOrDefault()?.Url;
+    }
+}
+```
+
+## Best Practices
+
+- Always check the package documentation for specific configuration requirements
+- Handle potential exceptions from agent operations
