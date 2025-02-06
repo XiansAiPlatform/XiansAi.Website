@@ -50,7 +50,7 @@ The XiansAi platform consists of two main components:
 ## Configuration Setup
 
 1. Download Certificates
-First, visit the XiansAi portal's Settings section to download your App Server API Key and Flow Server Certificates:
+First, visit the XiansAi portal's Settings section to download your App Server and Flow Server API Keys:
 
 ![Settings](../images/portal-settings.png)
 
@@ -66,8 +66,7 @@ Environment.SetEnvironmentVariable("APP_SERVER_URL", "<your-app-server-url>");
 Environment.SetEnvironmentVariable("APP_SERVER_API_KEY", "<your-app-server-api-key>");
 Environment.SetEnvironmentVariable("FLOW_SERVER_URL", "<your-flow-server-url>");
 Environment.SetEnvironmentVariable("FLOW_SERVER_NAMESPACE", "<your-flow-server-namespace>");
-Environment.SetEnvironmentVariable("FLOW_SERVER_CERT_PATH", "<your-flow-server-cert-path>");
-Environment.SetEnvironmentVariable("FLOW_SERVER_PRIVATE_KEY_PATH", "<your-flow-server-private-key-path>");
+Environment.SetEnvironmentVariable("FLOW_SERVER_API_KEY", "<your-flow-server-api-key>");
 
 var flowRunner = new FlowRunnerService();
 
@@ -83,8 +82,8 @@ var flowRunner = new FlowRunnerService();
     # Platform environment variables
     FLOW_SERVER_URL=tenant-xyz.ozqzb.tmprl.cloud:7233
     FLOW_SERVER_NAMESPACE=tenant-xyz.ozqzb
-    FLOW_SERVER_CERT_PATH=./.cert/FlowServerCert-1736928807581.crt
-    FLOW_SERVER_PRIVATE_KEY_PATH=./.cert/FlowServerPrivateKey-1736928808385.key
+    FLOW_SERVER_API_KEY=12fsd-0fidsfdsfkjsdfnsdfdskdsbf...
+    
     APP_SERVER_URL=https://api.xians.ai
     APP_SERVER_API_KEY=12fsd-0fidsfdsfkjsdfnsdfdskdsbf...
     ```
