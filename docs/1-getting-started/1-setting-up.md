@@ -50,7 +50,7 @@ The XiansAi platform consists of two main components:
 ## Configuration Setup
 
 1. Download Certificates
-First, visit the XiansAi portal's Settings section to download your certificates:
+First, visit the XiansAi portal's Settings section to download your App Server API Key and Flow Server Certificates:
 
 ![Settings](../images/portal-settings.png)
 
@@ -63,8 +63,7 @@ Add the following configuration to your Program.cs file to configure the `FlowRu
 using XiansAi.Flow;
 
 Environment.SetEnvironmentVariable("APP_SERVER_URL", "<your-app-server-url>");
-Environment.SetEnvironmentVariable("APP_SERVER_CERT_PATH", "<your-app-server-cert-path>");
-Environment.SetEnvironmentVariable("APP_SERVER_CERT_PWD", "<your-app-server-cert-pwd>");
+Environment.SetEnvironmentVariable("APP_SERVER_API_KEY", "<your-app-server-api-key>");
 Environment.SetEnvironmentVariable("FLOW_SERVER_URL", "<your-flow-server-url>");
 Environment.SetEnvironmentVariable("FLOW_SERVER_NAMESPACE", "<your-flow-server-namespace>");
 Environment.SetEnvironmentVariable("FLOW_SERVER_CERT_PATH", "<your-flow-server-cert-path>");
@@ -87,8 +86,7 @@ var flowRunner = new FlowRunnerService();
     FLOW_SERVER_CERT_PATH=./.cert/FlowServerCert-1736928807581.crt
     FLOW_SERVER_PRIVATE_KEY_PATH=./.cert/FlowServerPrivateKey-1736928808385.key
     APP_SERVER_URL=https://api.xians.ai
-    APP_SERVER_CERT_PATH=./.cert/AppServerCert-1736979268735.pfx
-    APP_SERVER_CERT_PWD=test
+    APP_SERVER_API_KEY=12fsd-0fidsfdsfkjsdfnsdfdskdsbf...
     ```
     Update your Program.cs:
     `Program.cs >`
