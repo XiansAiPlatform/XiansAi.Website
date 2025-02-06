@@ -49,12 +49,14 @@ The XiansAi platform consists of two main components:
 
 ## Configuration Setup
 
-1. Download Certificates
+1. Get API Keys
+
 First, visit the XiansAi portal's Settings section to download your App Server and Flow Server API Keys:
 
 ![Settings](../images/portal-settings.png)
 
 1. Configure Environment Variables
+
 Add the following configuration to your Program.cs file to configure the `FlowRunnerService` with XiansAi platform.
 
 `Program.cs >`
@@ -80,10 +82,11 @@ var flowRunner = new FlowRunnerService();
     `.env file >`
     ``` .env
     # Platform environment variables
+
     FLOW_SERVER_URL=tenant-xyz.ozqzb.tmprl.cloud:7233
     FLOW_SERVER_NAMESPACE=tenant-xyz.ozqzb
     FLOW_SERVER_API_KEY=12fsd-0fidsfdsfkjsdfnsdfdskdsbf...
-    
+
     APP_SERVER_URL=https://api.xians.ai
     APP_SERVER_API_KEY=12fsd-0fidsfdsfkjsdfnsdfdskdsbf...
     ```
