@@ -51,54 +51,54 @@ The XiansAi platform consists of two main components:
 
 1. Get API Keys
 
-First, visit the XiansAi portal's Settings section to download your App Server and Flow Server API Keys:
+    First, visit the XiansAi portal's Settings section to copy your App Server and Flow Server API Keys:
 
-![Settings](../images/portal-settings.png)
+    ![Settings](../images/portal-settings.png)
 
-1. Configure Environment Variables
+2. Configure Environment Variables
 
-Add the following configuration to your Program.cs file to configure the `FlowRunnerService` with XiansAi platform.
+    Add the following configuration to your Program.cs file to configure the `FlowRunnerService` with XiansAi platform.
 
-`Program.cs >`
-
-```csharp
-using XiansAi.Flow;
-
-Environment.SetEnvironmentVariable("APP_SERVER_URL", "<your-app-server-url>");
-Environment.SetEnvironmentVariable("APP_SERVER_API_KEY", "<your-app-server-api-key>");
-Environment.SetEnvironmentVariable("FLOW_SERVER_URL", "<your-flow-server-url>");
-Environment.SetEnvironmentVariable("FLOW_SERVER_NAMESPACE", "<your-flow-server-namespace>");
-Environment.SetEnvironmentVariable("FLOW_SERVER_API_KEY", "<your-flow-server-api-key>");
-
-var flowRunner = new FlowRunnerService();
-
-// Register the flow (see the next section for more details)
-```
-
-!!! tip "Using Environment Files"
-    For better security and maintainability, use a .env file to manage your configuration:
-    You can use a package like [DotNetEnv](https://github.com/tonerdo/dotnet-env) to load the environment variables from the `.env` file without hardcoding them in your code.
-
-    `.env file >`
-    ``` .env
-    # Platform environment variables
-
-    FLOW_SERVER_URL=tenant-xyz.ozqzb.tmprl.cloud:7233
-    FLOW_SERVER_NAMESPACE=tenant-xyz.ozqzb
-    FLOW_SERVER_API_KEY=12fsd-0fidsfdsfkjsdfnsdfdskdsbf...
-
-    APP_SERVER_URL=https://api.xians.ai
-    APP_SERVER_API_KEY=12fsd-0fidsfdsfkjsdfnsdfdskdsbf...
-    ```
-    Update your Program.cs:
     `Program.cs >`
+
     ```csharp
     using XiansAi.Flow;
-    using DotNetEnv;
-    // Load the environment variables from the .env file
-    Env.Load();
+
+    Environment.SetEnvironmentVariable("APP_SERVER_URL", "<your-app-server-url>");
+    Environment.SetEnvironmentVariable("APP_SERVER_API_KEY", "<your-app-server-api-key>");
+    Environment.SetEnvironmentVariable("FLOW_SERVER_URL", "<your-flow-server-url>");
+    Environment.SetEnvironmentVariable("FLOW_SERVER_NAMESPACE", "<your-flow-server-namespace>");
+    Environment.SetEnvironmentVariable("FLOW_SERVER_API_KEY", "<your-flow-server-api-key>");
+
     var flowRunner = new FlowRunnerService();
+
+    // Register the flow (see the next section for more details)
     ```
+
+    !!! tip "Using Environment Files"
+        For better security and maintainability, use a .env file to manage your configuration:
+        You can use a package like [DotNetEnv](https://github.com/tonerdo/dotnet-env) to load the environment variables from the `.env` file without hardcoding them in your code.
+
+        `.env file >`
+        ``` .env
+        # Platform environment variables
+
+        FLOW_SERVER_URL=tenant-xyz.ozqzb.tmprl.cloud:7233
+        FLOW_SERVER_NAMESPACE=tenant-xyz.ozqzb
+        FLOW_SERVER_API_KEY=12fsd-0fidsfdsfkjsdfnsdfdskdsbf...
+
+        APP_SERVER_URL=https://api.xians.ai
+        APP_SERVER_API_KEY=12fsd-0fidsfdsfkjsdfnsdfdskdsbf...
+        ```
+        Update your Program.cs:
+        `Program.cs >`
+        ```csharp
+        using XiansAi.Flow;
+        using DotNetEnv;
+        // Load the environment variables from the .env file
+        Env.Load();
+        var flowRunner = new FlowRunnerService();
+        ```
 
 ## Validating Your Setup
 
